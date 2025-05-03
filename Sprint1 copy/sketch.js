@@ -4,10 +4,10 @@ let canvasHeight = 800;
 let micInstance;
 let micLevel = 0;
 
-colorMode(HSB);
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
+  //colorMode(HSB);
 
   /* Im setup einmalig Zugriff auf das Mikrofon
   */
@@ -51,13 +51,41 @@ function draw() {
   strokeWeight(0);
   fill(0);
   
-  for(let ix = 0; ix < 20; ix++){
+  /*for(let ix = 0; ix < 20; ix++){
     for(let iy = 0; iy < 20; iy++){
       drawRoom(ix * 50, iy * 50, 5 + map(micLevel,0,255,10,230) * 0.3, 10, 10 + map(micLevel,0,255,10,230) * 0.5)
 
     }
-  }
+  }*/
   
+    for (let ix = 0; ix < 20; ix++) {
+      for (let iy = 0; iy < 20; iy++) {
+        let baseX = ix * 50;
+        let baseY = iy * 50;
+    
+        // Create a wave offset (change iy to ix for horizontal wave)
+        let waveOffset = sin(frameCount * 0.2 - iy * 0.6);
+        console.log(frameCount);
+        // Optional: visualize this in console to debug
+         console.log(waveOffset);
+    
+        // Normalize wave (-1..1) to (0..1.5)
+        let waveScale = map(waveOffset, -1, 1, 0.5, 1.5);
+    
+        // Normalize mic level for more sensitivity
+        let level = map(micLevel, 0, 255, 0.5, 2);
+    
+        let wallWidth = 10 + waveScale * level * 20;
+        let wallHeight = 10 + waveScale * level * 10;
+        let wallDepth = 10 + waveScale * level * 30;
+    
+        drawRoom(baseX, baseY, wallWidth, wallHeight, wallDepth);
+      }
+    }
+    
+    
+
+    
   //drawRoom(50, 50, 50, 50, 50);
 
   // draw ellipse objects (x ,y, inverted # of layers, height)

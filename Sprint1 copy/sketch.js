@@ -63,25 +63,38 @@ function draw() {
         let baseX = ix * 50;
         let baseY = iy * 50;
     
-        // Create a wave offset (change iy to ix for horizontal wave)
-        let waveOffset = sin(frameCount * 0.2 - iy * 0.6);
-        console.log(frameCount);
-        // Optional: visualize this in console to debug
-         console.log(waveOffset);
+
+        // -------------- WAVE EFFECRTS --------------
+
+        
+        // Wave offset based on row or column,  swap ix/iy for direction
+        //let waveOffset = sin(frameCount * 0.4 - iy * 0.6);
     
-        // Normalize wave (-1..1) to (0..1.5)
-        let waveScale = map(waveOffset, -1, 1, 0.5, 1.5);
+        //radial Wave
+        //let dx = ix - 10;
+        //let dy = iy - 10;
+        //let distance = sqrt(dx * dx + dy * dy);
+        //let waveOffset = sin(frameCount * 0.2 - distance * 0.8);
+
+        //spiral wave
+        let dx = ix - 10;
+        let dy = iy - 10;
+        let angle = atan2(dy, dx);
+        let radius = sqrt(dx * dx + dy * dy);
+        let waveOffset = sin(frameCount * 0.2 - radius * 0.5 + angle * 2);
+
+
+        // Map wave to scale between 0.5 and 1.0
+        let scaleFactor = map(waveOffset, -1, 1, 0.5, 1.0);
     
-        // Normalize mic level for more sensitivity
-        let level = map(micLevel, 0, 255, 0.5, 2);
+        // Apply micLevel and wave scale
+        let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.3;
+        let d = 10 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.5;
     
-        let wallWidth = 10 + waveScale * level * 20;
-        let wallHeight = 10 + waveScale * level * 10;
-        let wallDepth = 10 + waveScale * level * 30;
-    
-        drawRoom(baseX, baseY, wallWidth, wallHeight, wallDepth);
+        drawRoom(baseX, baseY, w, 10, d);
       }
     }
+    
     
     
 
@@ -89,7 +102,7 @@ function draw() {
   //drawRoom(50, 50, 50, 50, 50);
 
   // draw ellipse objects (x ,y, inverted # of layers, height)
-  //drawEllipse(50, mouseY, 12, 80);
+  drawEllipse(mouseY * map(micLevel, 0, 255, 0.5, 2), 100, 12, 80);
   //drawEllipse(mouseY * 0.8, mouseX * 0.4, 14, 50);
 
   }
@@ -97,6 +110,8 @@ function draw() {
 
 function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
   // Upper wall, black, clockwise
+colorMode(HSB);
+
   fill(0);
   quad(
     x,
@@ -110,7 +125,7 @@ function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
   );
 
   // Right wall, red, clockwise
-  fill(255);
+  fill(map(micLevel,0,255,0,360),100,100);
   quad(
     x + wallWidth,
     y,
@@ -123,7 +138,7 @@ function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
   );
 
   // Left wall, green, clockwise
-  fill(255);
+  fill(map(micLevel,0,255,360,0),100,100);
   quad(
     x,
     y,

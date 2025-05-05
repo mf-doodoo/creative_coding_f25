@@ -65,7 +65,6 @@ function draw() {
     
 
         // -------------- WAVE EFFECRTS --------------
-
         
         // Wave offset based on row or column,  swap ix/iy for direction
         //let waveOffset = sin(frameCount * 0.4 - iy * 0.6);
@@ -102,7 +101,7 @@ function draw() {
   //drawRoom(50, 50, 50, 50, 50);
 
   // draw ellipse objects (x ,y, inverted # of layers, height)
-  drawEllipse(mouseY * map(micLevel, 0, 255, 0.5, 2), 100, 12, 80);
+  //drawEllipse(mouseY * map(micLevel, 0, 255, 0.5, 2), 100, 12, 80);
   //drawEllipse(mouseY * 0.8, mouseX * 0.4, 14, 50);
 
   }

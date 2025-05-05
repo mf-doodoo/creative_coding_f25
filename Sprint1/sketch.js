@@ -58,11 +58,11 @@ function draw() {
     }
   }
   
-  //drawRoom(50, 50, 50, 50, 50);
+  drawRoom(50, 50, 50, 50, 50);
 
   // draw ellipse objects (x ,y, inverted # of layers, height)
-  //drawEllipse(50, mouseY, 12, 80);
-  //drawEllipse(mouseY * 0.8, mouseX * 0.4, 14, 50);
+  drawEllipse(50, mouseY, 12, 80);
+  drawEllipse(mouseY * 0.8, mouseX * 0.4, 14, 50);
 
   }
 

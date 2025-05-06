@@ -75,7 +75,7 @@ console.log(waveOffset)
 
 
         // Map wave to scale between 0.5 and 1.0
-        let scaleFactor = map(waveOffset, -1, 1, 0.5, 1.0);
+        let scaleFactor = map(waveOffset, -1, 1, 0.2, 0.8);
     
         // Apply micLevel and wave scale
         let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.3;
@@ -93,7 +93,6 @@ console.log(waveOffset)
 
   }
 
-  //color
 
 function drawRoom(x, y, wallWidth, wallHeight, wallDepth, wallColor) {
   colorMode(HSB);

@@ -16,7 +16,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  //background(220);
   //let angleBG = frameCount*0.01
   //rotate(angleBG)
 

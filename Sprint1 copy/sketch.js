@@ -35,7 +35,7 @@ function draw() {
   
 
   // background lines
-  for (let x = 10; x < canvasWidth; x += 10) {
+  /*for (let x = 10; x < canvasWidth; x += 10) {
     strokeWeight(3);
     let winkel = atan2(mouseX * 10, mouseY * 10);
 
@@ -45,7 +45,7 @@ function draw() {
     line(x-canvasWidth, 0 - canvasHeight, x, canvasHeight);
 
     pop();
-    }
+    }*/
 
   // draw Rooms (x, y, width, height, depth)
   strokeWeight(0);
@@ -54,7 +54,6 @@ function draw() {
   /*for(let ix = 0; ix < 20; ix++){
     for(let iy = 0; iy < 20; iy++){
       drawRoom(ix * 50, iy * 50, 5 + map(micLevel,0,255,10,230) * 0.3, 10, 10 + map(micLevel,0,255,10,230) * 0.5)
-
     }
   }*/
   
@@ -64,23 +63,23 @@ function draw() {
         let baseY = iy * 50;
     
 
-        // -------------- WAVE EFFECRTS --------------
+        // -------------- WAVE EFFECTS --------------
         
         // Wave offset based on row or column,  swap ix/iy for direction
-        //let waveOffset = sin(frameCount * 0.4 - iy * 0.6);
+        let waveOffset = sin(frameCount * 0.4 - iy * 0.6);
     
-        //radial Wave
-        //let dx = ix - 10;
-        //let dy = iy - 10;
-        //let distance = sqrt(dx * dx + dy * dy);
-        //let waveOffset = sin(frameCount * 0.2 - distance * 0.8);
+        /*//radial Wave
+        let dx = ix - 10;
+        let dy = iy - 10;
+        let distance = sqrt(dx * dx + dy * dy);
+        let waveOffset = sin(frameCount * 0.2 - distance * 0.8);*/
 
-        //spiral wave
+        /*//spiral wave
         let dx = ix - 10;
         let dy = iy - 10;
         let angle = atan2(dy, dx);
         let radius = sqrt(dx * dx + dy * dy);
-        let waveOffset = sin(frameCount * 0.2 - radius * 0.5 + angle * 2);
+        let waveOffset = sin(frameCount * 0.2 - radius * 0.5 + angle * 2);*/
 
 
         // Map wave to scale between 0.5 and 1.0
@@ -89,16 +88,14 @@ function draw() {
         // Apply micLevel and wave scale
         let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.3;
         let d = 10 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.5;
+        let h = 10 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.5;
     
-        drawRoom(baseX, baseY, w, 10, d);
+        drawRoom(baseX, baseY, w, h, 10);
       }
     }
     
     
-    
-
-    
-  //drawRoom(50, 50, 50, 50, 50);
+  drawRoom(50, 50, 50, 50, 50);
 
   // draw ellipse objects (x ,y, inverted # of layers, height)
   //drawEllipse(mouseY * map(micLevel, 0, 255, 0.5, 2), 100, 12, 80);
@@ -174,7 +171,7 @@ function drawEllipse(ellipseX, ellipseY, ellipseLayers, baseHeight) {
     }
     strokeWeight(1);
     ellipse(ellipseX, ellipseY, 20 * 20 - ellipseLayers * 20, ellipseHeight);
-  }
+    }
   }
 }
 

@@ -8,7 +8,6 @@ var scaleFactor;
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
-  //colorMode(HSB);
 
   /* Im setup einmalig Zugriff auf das Mikrofon
   */
@@ -17,9 +16,8 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-  //let angleBG = frameCount*0.01
-  //rotate(angleBG)
+  background(0);
+
 
   /**
   * User muss mit der Seite interagieren, um Zugriff auf das Mikrofon zu erhalten
@@ -36,27 +34,18 @@ function draw() {
   
 
   // background lines
+  /*
   for (let x = 10; x < canvasWidth; x += 10) {
     strokeWeight(3);
-    /*let winkel = atan2(mouseX * 10, mouseY * 10);
-
-    push();
-    translate(canvasWidth / 2, canvasHeight / 2);
-    rotate(winkel);
-    line(x-canvasWidth, 0 - canvasHeight, x, canvasHeight);
-
-    */pop();
+    line(x, 0, x, canvasHeight);
     }
+  */
+
 
   // draw Rooms (x, y, width, height, depth)
   strokeWeight(0);
   fill(0);
   
-  /*for(let ix = 0; ix < 20; ix++){
-    for(let iy = 0; iy < 20; iy++){
-      drawRoom(ix * 50, iy * 50, 5 + map(micLevel,0,255,10,230) * 0.3, 10, 10 + map(micLevel,0,255,10,230) * 0.5)
-    }
-  }*/
   
     for (let ix = 0; ix < 20; ix++) {
       for (let iy = 0; iy < 20; iy++) {
@@ -73,7 +62,9 @@ function draw() {
         let dx = ix - mouseX / 50;
         let dy = iy - mouseY / 50;
         let distance = sqrt(dx * dx + dy * dy);
-        let waveOffset = sin(frameCount * 0.2 - distance * 0.9);
+        let waveOffset = sin(frameCount * 0.3 - distance * 0.5);
+
+console.log(waveOffset)
 
         //spiral wave
         //let dx = ix - 10;
@@ -90,28 +81,25 @@ function draw() {
         let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.3;
         let d = 10 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.5;
         let h = 10 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.2;
+        let colorWave = map(scaleFactor * map(micLevel, 0, 255, 10, 100), 0, 255, 0,100);
     
-        drawRoom(baseX, baseY, w, h, d);
+        drawRoom(baseX, baseY, w, h, d, colorWave);
       }
     }
     
+    //cursor replacement
     noCursor();
-  drawRoom(mouseX, mouseY, 50, 50, 50);
-
-  // draw ellipse objects (x ,y, inverted # of layers, height)
-  //drawEllipse(mouseY * map(micLevel, 0, 255, 0.5, 2), 100, 12, 80);
-  //drawEllipse(mouseY * 0.8, mouseX * 0.4, 14, 50);
+    drawRoom(mouseX, mouseY, 50, 50, 50, map(micLevel,0 , 255, 0, 100));
 
   }
 
   //color
 
-function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
-  // Upper wall, black, clockwise
+function drawRoom(x, y, wallWidth, wallHeight, wallDepth, wallColor) {
   colorMode(HSB);
-
-
-    fill(0);
+  
+  // Upper wall, black, clockwise
+  fill(0);
   quad(
     x,
     y,
@@ -123,8 +111,8 @@ function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
     y + wallHeight
   );
 
-  // Right wall, red, clockwise
-  fill(map(micLevel,0,255,0,360),100,100);
+  // Right wall, clockwise
+  fill(map(micLevel,0,255,0,360) * wallColor,100,100);
   quad(
     x + wallWidth,
     y,
@@ -136,8 +124,8 @@ function drawRoom(x, y, wallWidth, wallHeight, wallDepth) {
     y + wallHeight
   );
 
-  // Left wall, green, clockwise
-  fill(map(micLevel,0,255,360,0),100,100);
+  // Left wall, clockwise
+  fill(map(micLevel,0,255,0,360) * wallColor,100,100);
   quad(
     x,
     y,

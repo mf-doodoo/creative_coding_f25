@@ -86,9 +86,9 @@ function draw() {
         let scaleFactor = map(waveOffset, -1, 1, 0.5, 1.0);
     
         // Apply micLevel and wave scale
-        let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.3;
-        let d = 10 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.5;
-        let h = 10 + scaleFactor * map(micLevel, 0, 255, 10, 230) * 0.2;
+        let w = 5 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.3;
+        let d = 10 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.5;
+        let h = 10 + scaleFactor * map(micLevel, 0, 255, 10, 100) * 0.2;
     
         drawRoom(baseX, baseY, w, h, d);
       }

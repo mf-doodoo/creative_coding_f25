@@ -76,30 +76,38 @@ chrome.action.onClicked.addListener(async (tab) => {
   });
   
   chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-    if (message.type === "mouse_position") {
-      const now = Date.now();
-      if (now - lastMove < 100) return;
-      lastMove = now;
+    if (message.type !== "mouse_position") return;
   
-      const windowInfo = await chrome.windows.getCurrent();
+    const now = Date.now();
+    if (now - lastMove < 50) return;
+    lastMove = now;
   
-      const windowCenterX = windowInfo.left + windowInfo.width / 2;
-      const windowCenterY = windowInfo.top + windowInfo.height / 2;
+    const windowInfo = await chrome.windows.getCurrent();
   
-      const dx = windowCenterX - message.x;
-      const dy = windowCenterY - message.y;
+    const windowCenterX = windowInfo.left + windowInfo.width / 2;
+    const windowCenterY = windowInfo.top + windowInfo.height / 2;
   
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 50) return;
+    const dx = windowCenterX - message.x;
+    const dy = windowCenterY - message.y;
   
-      const moveStep = 50;
-      const moveX = dx > 0 ? moveStep : dx < 0 ? -moveStep : 0;
-      const moveY = dy > 0 ? moveStep : dy < 0 ? -moveStep : 0;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance < 50) return;
   
-      await chrome.windows.update(windowInfo.id, {
-        left: windowInfo.left + moveX,
-        top: windowInfo.top + moveY
-      });
-    }
+    const normalize = (value) => value / distance;
+  
+    const directionX = normalize(dx);
+    const directionY = normalize(dy);
+  
+    // Dynamische Schrittweite mit Trägheit (z. B. max 30 px pro Schritt)
+    const maxStep = 30;
+    const minStep = 4;
+    const stepScale = Math.min(maxStep, Math.max(minStep, distance / 20));
+  
+    const moveX = Math.round(directionX * stepScale);
+    const moveY = Math.round(directionY * stepScale);
+  
+    await chrome.windows.update(windowInfo.id, {
+      left: windowInfo.left + moveX,
+      top: windowInfo.top + moveY
+    });
   });
-  

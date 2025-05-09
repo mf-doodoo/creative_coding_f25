@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Scroll Position Tracker",
+  "version": "1.0",
+  "description": "Displays the scroll position in a popup",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}

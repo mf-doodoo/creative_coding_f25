@@ -21,7 +21,7 @@ chrome.action.onClicked.addListener(async () => {
 */
 
 // -------- move window away from mouse -----------
-
+/*
 chrome.action.onClicked.addListener(async (tab) => {
     console.log("icon clicked");
   
@@ -44,8 +44,10 @@ chrome.action.onClicked.addListener(async (tab) => {
   
       if (message.x - windowInfo.left < 200) {
         newLeft += 200; // mouse is right – go right
+        console.log("mouse is right – go right");
       } else {
         newLeft -= 200; // mouse is left – go left
+        console.log("mouse is left – go left");
       }
   
       if (message.y - windowInfo.top < 200) {
@@ -62,3 +64,42 @@ chrome.action.onClicked.addListener(async (tab) => {
       console.log(`window moves to: X, Y (${newLeft}, ${newTop})`);
     }
   });
+  */
+
+  let lastMove = 0;
+
+  chrome.action.onClicked.addListener(async (tab) => {
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["mousePos.js"]
+    });
+  });
+  
+  chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    if (message.type === "mouse_position") {
+      const now = Date.now();
+      if (now - lastMove < 100) return;
+      lastMove = now;
+  
+      const windowInfo = await chrome.windows.getCurrent();
+  
+      const windowCenterX = windowInfo.left + windowInfo.width / 2;
+      const windowCenterY = windowInfo.top + windowInfo.height / 2;
+  
+      const dx = windowCenterX - message.x;
+      const dy = windowCenterY - message.y;
+  
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 50) return;
+  
+      const moveStep = 50;
+      const moveX = dx > 0 ? moveStep : dx < 0 ? -moveStep : 0;
+      const moveY = dy > 0 ? moveStep : dy < 0 ? -moveStep : 0;
+  
+      await chrome.windows.update(windowInfo.id, {
+        left: windowInfo.left + moveX,
+        top: windowInfo.top + moveY
+      });
+    }
+  });
+  

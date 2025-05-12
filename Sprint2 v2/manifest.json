@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "My p5.js Extension",
-  "description": "A browser extension using p5.js",
+  "name": "Tunnelvision",
+  "description": "A Chrome extension that visualizes the tunnel effect.",
   "version": "1.0",
   "permissions": [
     "activeTab"
@@ -9,7 +9,9 @@
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "tunnel_icon.png"
+      "16": "tunnel_icon.png",
+      "32": "tunnel_icon.png",
+      "48": "tunnel_icon.png"
     }
   },
   "content_scripts": [

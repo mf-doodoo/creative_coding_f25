@@ -18,8 +18,8 @@ function draw() {
 
   // Loch an Mausposition
   erase();
-  ellipse(mouseX-50, mouseY, 100, 100);
-  ellipse(mouseX+50, mouseY, 100, 100);
+  ellipse(mouseX-50, mouseY, 120, 80);
+  ellipse(mouseX+50, mouseY, 120, 80);
   noErase();
 }
 

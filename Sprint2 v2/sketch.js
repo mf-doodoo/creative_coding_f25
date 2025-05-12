@@ -1,20 +1,28 @@
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   cnv.position(0, 0);
-  cnv.style('position', 'absolute'); // <-- instead of fixed
-  cnv.style('top', '0px');
-  cnv.style('left', '0px');
-  background(30);
+  cnv.style('pointer-events', 'none'); // wichtig für Webseiten-Interaktion
+  cnv.style('z-index', '999999');
+  cnv.style('position', 'fixed');
+  cnv.style('top', '0');
+  cnv.style('left', '0');
+  noStroke();
 }
-
 
 function draw() {
-  background(255, 255, 255);
-  ellipse(mouseX, mouseY, 50, 50);
+  clear(); // macht den Hintergrund des Canvas transparent
+
+  // Schwarzes Overlay
+  fill(0, 255); // 200 = leicht transparent, 255 = voll schwarz
+  rect(0, 0, width, height);
+
+  // Loch an Mausposition
+  erase();
+  ellipse(mouseX-50, mouseY, 100, 100);
+  ellipse(mouseX+50, mouseY, 100, 100);
+  noErase();
 }
 
-// Automatically resize canvas on window resize
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
-

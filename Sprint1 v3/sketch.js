@@ -64,7 +64,7 @@ function draw() {
         let distance = sqrt(dx * dx + dy * dy);
         let waveOffset = sin(frameCount * 0.3 - distance * 0.5);
 
-console.log(waveOffset)
+        //console.log(waveOffset)
 
         //spiral wave
         //let dx = ix - 10;
@@ -149,7 +149,7 @@ function drawRoom(x, y, wallWidth, wallHeight, wallDepth, wallColor) {
     y + wallDepth
   );
   }
-
+/*
 function drawEllipse(ellipseX, ellipseY, ellipseLayers, baseHeight) {
   // ellipses
   for (ellipseLayers; ellipseLayers < 20; ellipseLayers++) {
@@ -163,6 +163,7 @@ function drawEllipse(ellipseX, ellipseY, ellipseLayers, baseHeight) {
     ellipse(ellipseX, ellipseY, 20 * 20 - ellipseLayers * 20, ellipseHeight);
     }
   }
+  */
 }
 
 // Async function outside draw() to call listenMic

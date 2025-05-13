@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Tunnelblick Overlay",
+  "version": "1.0",
+  "description": "Schwarzes Overlay mit Maus-Loch",
+  "permissions": ["scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Tunnelblick umschalten"
+  },
+  "host_permissions": ["<all_urls>"]
+}

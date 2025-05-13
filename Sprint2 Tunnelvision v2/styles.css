@@ -1,0 +1,4 @@
+/* Additional styles if needed */
+.pointer-events-none {
+    pointer-events: none;
+}

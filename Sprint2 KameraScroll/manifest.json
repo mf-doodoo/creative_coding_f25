@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Hand Cursor Overlay",
+  "version": "1.0",
+  "description": "Hand als Mauszeiger über Websites",
+  "permissions": ["scripting", "activeTab", "camera"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Hand Overlay aktivieren"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["overlay.html", "overlay.js", "handpose.js", "styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

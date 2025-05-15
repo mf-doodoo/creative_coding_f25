@@ -1,4 +1,3 @@
-// Disable default mouse and keyboard scrolling
 document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
 document.addEventListener('keydown', e => {
   if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "].includes(e.key)) {

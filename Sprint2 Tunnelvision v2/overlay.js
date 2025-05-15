@@ -18,7 +18,7 @@
 
     p.draw = () => {
       p.clear();
-      p.fill(0, 200);
+      p.fill(0, 255);
       p.rect(0, 0, p.width, p.height);
 
       const x = p.mouseX || window.lastMouseX || 0;

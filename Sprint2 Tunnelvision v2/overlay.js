@@ -18,7 +18,7 @@
 
     p.draw = () => {
       p.clear();
-      p.fill(0, 255);
+      p.fill(0, 255);     // zweite Zahl -> Opacity ändern
       p.rect(0, 0, p.width, p.height);
 
       const x = p.mouseX || window.lastMouseX || 0;

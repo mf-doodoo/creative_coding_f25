@@ -25,9 +25,9 @@ async function startMicScroll() {
   }
 
   function scrollLoop() {
-    const volume = getVolume(); // range ~0–100+
+    const volume = getVolume(); // volume range ~0–100+
     const deadzone = 10;        // no scroll when volume is too low
-    const center = 30;          // midpoint: <30 = up, >30 = down
+    const center = 40;          // midpoint: volume < 30 = up, volume > 30 = down
     const strength = volume - center;
 
     if (Math.abs(strength) > deadzone) {

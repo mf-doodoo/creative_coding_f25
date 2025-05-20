@@ -1,70 +1,71 @@
 let handPose;
 let video;
 let hands = [];
+let lastScrollTime = 0;
 
 let canvasWidth = 640;
 let canvasHeight = 480;
 
+// Scroll parameters (adjust as needed)
+const SCROLL_COOLDOWN = 200; // milliseconds between scrolls
+const SCROLL_DISTANCE = 100; // pixels per scroll
+const SCROLL_THRESHOLD = 30; // minimum finger movement required
+
 function preload() {
-  // Load the handPose model
   handPose = ml5.handPose();
 }
 
 function setup() {
-  createCanvas(canvasWidth, canvasHeight);
-  // Create the webcam video and hide it
+  createCanvas(canvasWidth, canvasHeight).mouseClicked(startScroll);
   video = createCapture(VIDEO);
   video.size(canvasWidth, canvasHeight);
   video.hide();
-  // start detecting hands from the webcam video
   handPose.detectStart(video, gotHands);
 }
 
 function draw() {
-  // Draw the webcam video
   image(video, 0, 0, width, height);
-  
-  //fill(0, 0, 250, 50);
-  //rectangle(0, 0, width, height / 3);
+  drawHandPoints();
+  checkScrollGesture();
+}
 
-  // Draw all the tracked hand points
-  for (let i = 0; i < hands.length; i++) {
-    let hand = hands[i];
-    for (let j = 0; j < hand.keypoints.length; j++) {
-      let keypoint = hand.keypoints[j];
+// Add click handler for scroll permission
+function startScroll() {
+  // Dummy function to enable scrolling after user interaction
+}
+
+function drawHandPoints() {
+  for (let hand of hands) {
+    for (let keypoint of hand.keypoints) {
       fill(0, 255, 0);
       noStroke();
       circle(keypoint.x, keypoint.y, 10);
-    }
-  }
-
-  if (hands.length > 0) {
-    let hand = hands[0]; // Access the first detected hand
-    let indexTip = hand.keypoints[8]; // Index finger tip (verify index)
-    let middleTip = hand.keypoints[12]; // Middle finger tip
-      
-    // Draw circles as before
-    for (let j = 0; j < hand.keypoints.length; j++) {
-      let keypoint = hand.keypoints[j];
-      fill(0, 255, 0);
-      noStroke();
-      circle(keypoint.x, keypoint.y, 10);
-    }
-
-    // Compare y positions (smaller y is higher on the canvas)
-    if (indexTip.y < middleTip.y || indexTip.y < canvasHeight / 3) {
-      // Do your action here, e.g., change background color
-      background(255, 0, 0, 50); // red background to check if it works
-
-
-
-
     }
   }
 }
 
-// Callback function for when handPose outputs data
+function checkScrollGesture() {
+  if (hands.length === 0 || millis() - lastScrollTime < SCROLL_COOLDOWN) return;
+
+  const hand = hands[0];
+  const indexBase = hand.keypoints[5]; // Index finger MCP joint
+  const indexTip = hand.keypoints[8]; // Index finger tip
+
+  // Calculate vertical distance between base and tip
+  const verticalMovement = indexBase.y - indexTip.y;
+
+  if (Math.abs(verticalMovement) > SCROLL_THRESHOLD) {
+    if (verticalMovement > 0) {
+      window.scrollBy(0, -SCROLL_DISTANCE); // Scroll up
+      console.log("Scrolling up");
+    } else {
+      window.scrollBy(0, SCROLL_DISTANCE); // Scroll down
+      console.log("Scrolling down");
+    }
+    lastScrollTime = millis();
+  }
+}
+
 function gotHands(results) {
-  // save the output to the hands variable
   hands = results;
 }

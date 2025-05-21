@@ -45,7 +45,7 @@ function drawHandPoints() {
 }
 
 function checkScrollGesture() {
-  if (hands.length === 0 || millis() - lastScrollTime < SCROLL_COOLDOWN) return;
+  if (hands.length === 0) return;
 
   const hand = hands[0];
   const indexBase = hand.keypoints[5]; // Index finger MCP joint

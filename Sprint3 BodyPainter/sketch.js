@@ -6,7 +6,7 @@ let connections;
 let canvasWidth = 640;
 let canvasHeight = 480;
 
-let buffer;
+let pg;   // p5.Graphics object for off-screen drawing
 
 let hueValue = 0;
 
@@ -18,6 +18,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   colorMode(HSB, 360, 100, 100, 100);   //hue, saturation, brightness, alpha
 
+  pg = createGraphics(canvasWidth, canvasHeight);   // Create an off-screen graphics buffer
 
   // Create the video and hide it
   video = createCapture(VIDEO);
@@ -31,8 +32,8 @@ function setup() {
 function draw() {
   // Draw the webcam video
   //image(video, 0, 0, width, height);
-  frameRate();
-  //background(255,30);
+  background(100, 0, 100, 10);   // Set the background color of the graphics buffer
+  frameRate(10);
 
   hueValue = (hueValue + 1) % 360;    // Increment the hue value for color cycling
 

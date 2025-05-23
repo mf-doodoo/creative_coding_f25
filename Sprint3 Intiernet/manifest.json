@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Intiernet",
+  "version": "1.0",
+  "description": "Mouse follows cheese before clicking.",
+  "permissions": ["scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["cursor.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["cheese.png", "mouse.png", "cursor.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_title": "Intiernet",
+    "default_icon": "cheese.png"
+  }
+}

@@ -1,5 +1,5 @@
 // Create fullscreen overlay
-const overlay = document.createElement('div');
+let overlay = document.createElement('div');
 overlay.id = 'screamlock-overlay';
 overlay.innerHTML = `
   <div id="screamlock-box">
@@ -23,6 +23,7 @@ Object.assign(overlay.style, {
   justifyContent: 'center',
   flexDirection: 'column'
 });
+
 document.body.appendChild(overlay);
 
 // Style the box
@@ -46,6 +47,19 @@ async function listenForNoise() {
     analyser.fftSize = 256;
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
+    function createOverlay() {
+      if (!document.getElementById('screamlock-overlay')) {
+        document.body.appendChild(overlay);
+      }
+    }
+
+    function removeOverlay() {
+      const existingOverlay = document.getElementById('screamlock-overlay');
+      if (existingOverlay) {
+        existingOverlay.remove();
+      }
+    }
+
     function checkVolume() {
       analyser.getByteTimeDomainData(dataArray);
       // Compute RMS (root mean square) volume
@@ -59,34 +73,22 @@ async function listenForNoise() {
 
       // Update bar
       const bar = document.getElementById('noise-bar-inner');
-      bar.style.width = Math.min(volume, 100) + '%';
+      if (bar) {
+        bar.style.width = Math.min(volume, 100) + '%';
+      }
 
       // Threshold: adjust as needed (e.g., 20)
-      if (volume > 20) {
-        overlay.remove();
-        stream.getTracks().forEach(track => track.stop());
-        audioCtx.close();
-        return;
+      if (volume > 10) {
+        removeOverlay();
+      } else {
+        createOverlay();
       }
+
       requestAnimationFrame(checkVolume);
     }
     checkVolume();
   } catch (e) {
     box.innerHTML = "<p>Microphone access is required to unlock the page.</p>";
-    Object.assign(box.style, {
-  position: 'fixed',
-  top: height / 2 - 30 + 'px',
-  left: width / 2 - 30 + 'px',
-  width: '60vw',
-  height: '60vh',
-  background: 'rgba(0,0,0,0.85)',
-  zIndex: 999999,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'column'
-});
-document.body.appendChild(overlay);
   }
 }
 

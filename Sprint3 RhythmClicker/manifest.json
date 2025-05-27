@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Beat Click Guard",
+  "version": "1.0",
+  "description": "Only allows clicks to go through on the beat!",
+  "permissions": ["scripting"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["rythm.js", "content.js"]
+    }
+  ],
+  "web_accessible_resources": [{
+    "resources": ["music.mp3"],
+    "matches": ["<all_urls>"]
+  }]
+}

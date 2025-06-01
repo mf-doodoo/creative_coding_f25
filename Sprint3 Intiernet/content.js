@@ -1,5 +1,14 @@
 let mouseIsActive = false;
 
+let mousePath = [];
+
+document.addEventListener('mousemove', function(e) {
+    mousePath.push({ x: e.clientX, y: e.clientY });
+    // Optional: Limit array length to avoid memory issues
+    if (mousePath.length > 500) mousePath.shift();
+});
+
+
 document.addEventListener('click', function(e) {
     // Skip if the click was triggered by our own script
     if (e.__cheeseClickHandled) return;
@@ -46,7 +55,10 @@ document.addEventListener('click', function(e) {
     document.body.appendChild(mouse);
 
     // Animate mouse to cheese
-    animateMouseTo(mouse, clientX, clientY, () => {
+    // Copy the path at the moment of click
+    const pathCopy = mousePath.slice();
+
+    animateMouseAlongPath(mouse, pathCopy, () => {
         cheese.remove();
         mouse.remove();
         mouseIsActive = false;
@@ -60,15 +72,17 @@ document.addEventListener('click', function(e) {
             clientY
         });
 
-        // Custom flag to prevent re-triggering
         Object.defineProperty(newEvent, '__cheeseClickHandled', {
             value: true,
             enumerable: false
         });
 
         target.dispatchEvent(newEvent);
+
+        // Step 4: Clear the path after animation
+        mousePath = [];
     });
-}, true);
+    }, true);
 
 function getRandomEdgeSpawn() {
     const edge = Math.floor(Math.random() * 4);
@@ -83,30 +97,37 @@ function getRandomEdgeSpawn() {
     }
 }
 
-function animateMouseTo(element, destX, destY, onComplete) {
-    const speed = 2;
-    let posX = parseFloat(element.style.left);
-    let posY = parseFloat(element.style.top);
+function animateMouseAlongPath(element, path, onComplete) {
+    const speed = 4; // You can adjust this for smoothness
+    let index = 0;
 
     function moveStep() {
-        const dx = destX - posX;
-        const dy = destY - posY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < speed) {
-            element.style.left = `${destX}px`;
-            element.style.top = `${destY}px`;
+        if (index >= path.length) {
             if (onComplete) onComplete();
             return;
         }
 
-        posX += (dx / distance) * speed;
-        posY += (dy / distance) * speed;
-        element.style.left = `${posX}px`;
-        element.style.top = `${posY}px`;
+        const dest = path[index];
+        let posX = parseFloat(element.style.left);
+        let posY = parseFloat(element.style.top);
+
+        const dx = dest.x - posX;
+        const dy = dest.y - posY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < speed) {
+            element.style.left = `${dest.x}px`;
+            element.style.top = `${dest.y}px`;
+            index++;
+        } else {
+            posX += (dx / distance) * speed;
+            posY += (dy / distance) * speed;
+            element.style.left = `${posX}px`;
+            element.style.top = `${posY}px`;
+        }
 
         requestAnimationFrame(moveStep);
     }
 
-    requestAnimationFrame(moveStep);
+    moveStep();
 }

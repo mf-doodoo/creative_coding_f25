@@ -33,7 +33,8 @@ Object.assign(box.style, {
   padding: '32px',
   borderRadius: '16px',
   textAlign: 'center',
-  boxShadow: '0 2px 16px rgba(0,0,0,0.2)'
+  boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
+  color: 'rgba(0,0,0,0.8)',
 });
 
 // Microphone logic
@@ -78,7 +79,7 @@ async function listenForNoise() {
       }
 
       // Threshold: adjust as needed (e.g., 20)
-      if (volume > 50) {
+      if (volume > 5) {
         removeOverlay();
       } else {
         createOverlay();

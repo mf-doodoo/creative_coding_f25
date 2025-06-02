@@ -44,7 +44,7 @@ document.addEventListener('click', function(e) {
     const { startX, startY } = getRandomEdgeSpawn();
 
     const mouse = document.createElement('img');
-    mouse.src = chrome.runtime.getURL("cursor.png");
+    mouse.src = chrome.runtime.getURL("mouse.png");
     mouse.style.position = 'fixed';
     mouse.style.left = `${startX}px`;
     mouse.style.top = `${startY}px`;

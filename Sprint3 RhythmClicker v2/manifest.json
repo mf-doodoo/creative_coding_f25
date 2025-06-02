@@ -1,13 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Rythm.js Beat Detector",
+  "name": "Beat Visualizer",
   "version": "1.0",
-  "description": "Detects beats in audio files using Rythm.js",
-  "permissions": ["scripting"],
+  "permissions": ["scripting", "activeTab"],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["rythm.js", "content.js"]
+      "js": ["overlay.js", "beat.js"],
+      "run_at": "document_idle"
     }
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ]
 }

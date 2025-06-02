@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Rythm.js Beat Detector",
+  "version": "1.0",
+  "description": "Detects beats in audio files using Rythm.js",
+  "permissions": ["scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["rythm.js", "content.js"]
+    }
+  ]
+}

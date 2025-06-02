@@ -1,5 +1,6 @@
 let canClick = false;
 const beatWindow = 150;
+let musicStarted = false;
 
 // Create beat indicator
 const indicator = document.createElement("div");
@@ -17,11 +18,11 @@ document.body.appendChild(indicator);
 
 // Create audio
 const audio = new Audio(chrome.runtime.getURL("music.mp3"));
- audio.play().then(() => {
-   console.log("Audio plays fine");
- }).catch(err => {
-   console.error("Audio failed to play", err);
-});
+// audio.play().then(() => {
+//   console.log("Audio plays fine");
+// }).catch(err => {
+//   console.error("Audio failed to play", err);
+// });
 audio.crossOrigin = "anonymous";
 audio.loop = true;
 
@@ -30,6 +31,27 @@ const rythm = new Rythm();
 rythm.setMusic(audio);
 rythm.setGain(2);
 
+// start button
+const startButton = document.createElement("button");
+startButton.textContent = "Start Music";
+Object.assign(startButton.style, {
+  position: "fixed",
+  top: "50px",
+  right: "10px",
+  zIndex: 10000,
+});
+document.body.appendChild(startButton);
+
+startButton.addEventListener("click", () => {
+  audio.play().then(() => {
+    return rythm.start();
+  }).then(() => {
+    startButton.remove();
+    // Optional: show a message "Now click on the beat!"
+  });
+});
+
+
 // Click to start audio and rythm
 document.addEventListener("click", () => {
   if (audio.paused) {
@@ -37,6 +59,8 @@ document.addEventListener("click", () => {
       console.log("Audio playing...");
       return rythm.start();
     }).then(() => {
+      musicStarted = true;
+      startButton.remove(); // Remove start button after music starts
       console.log("Rythm started");
 
       // Safe to start analyser debug after Rythm is running
@@ -55,7 +79,7 @@ document.addEventListener("click", () => {
       console.error("Failed to play/start Rythm:", err);
     });
   }
-}, { once: true });
+});
 
 // Add pulse indicator
 rythm.addRythm("debug-beat", "pulse", 0, 40, {
@@ -79,6 +103,7 @@ rythm.addRythm("click-window", "pulse", 0, 40, {
 
 // Click guard
 document.addEventListener("click", (e) => {
+  if (!musicStarted) return; // Don't block clicks before music starts
   const target = e.target.closest("a, button, input[type='submit']");
   if (target && !canClick) {
     e.preventDefault();
@@ -86,3 +111,4 @@ document.addEventListener("click", (e) => {
     console.warn("Click blocked: not on beat.");
   }
 }, true);
+

@@ -3,8 +3,12 @@ let bodyPose;
 let poses = [];
 let connections;
 
-let canvasWidth = 640;
-let canvasHeight = 480;
+let canvasWidth = 1280;
+let canvasHeight = 960;
+
+let currentDirection;
+let directionTimer = 0;
+
 
 let pg;   // p5.Graphics object for off-screen drawing
 
@@ -30,14 +34,41 @@ function setup() {
 }
 
 function draw() {
-  // Draw the webcam video
-  //image(video, 0, 0, width, height);
-  background(100, 0, 100, 10);   // Set the background color of the graphics buffer
+  background(100, 0, 100, 10); // Light background for fading effect
   frameRate(10);
+  hueValue = (hueValue + 1) % 360;
 
-  hueValue = (hueValue + 1) % 360;    // Increment the hue value for color cycling
+  // Change direction every 15 frames
+  if (directionTimer <= 0) {
+    let directions = [
+      {dx: 5, dy: 0},     // right
+      {dx: -5, dy: 0},    // left
+      {dx: 0, dy: 5},     // down
+      {dx: 0, dy: -5}     // up
+    ];
+    currentDirection = random(directions);
+    directionTimer = 30;
+  }
+  directionTimer--;
 
-  // Draw the skeleton connections
+  // Shift pg contents
+  pg.copy(pg, 0, 0, canvasWidth, canvasHeight,
+          currentDirection.dx, currentDirection.dy,
+          canvasWidth, canvasHeight);
+
+  // Add optional decay (fade over time)
+  pg.noStroke();
+  pg.colorMode(HSB, 360, 100, 100, 100);  // Make sure pg uses HSB
+  pg.noStroke();
+  pg.fill(100, 0, 100, 3);  // Match the purple-ish background, low alpha
+  pg.rect(0, 0, canvasWidth, canvasHeight);
+
+
+  // Draw current frame pose on a transparent layer
+  let layer = createGraphics(canvasWidth, canvasHeight);
+  layer.clear();
+  layer.colorMode(HSB, 360, 100, 100, 100);
+
   for (let i = 0; i < poses.length; i++) {
     let pose = poses[i];
     for (let j = 0; j < connections.length; j++) {
@@ -45,25 +76,26 @@ function draw() {
       let pointBIndex = connections[j][1];
       let pointA = pose.keypoints[pointAIndex];
       let pointB = pose.keypoints[pointBIndex];
-      // Only draw a line if both points are confident enough
       if (pointA.confidence > 0.1 && pointB.confidence > 0.1) {
-        stroke(hueValue, 100, 100, 100);  
-        strokeWeight(20);
-        line(pointA.x, pointA.y, pointB.x, pointB.y);
-        stroke(0, 0, 100, 100);
-        strokeWeight(10);
-        line(pointA.x, pointA.y, pointB.x, pointB.y);
+        layer.stroke(hueValue, 100, 100, 40);
+        layer.strokeWeight(20);
+        layer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+
+        layer.stroke(0, 0, 100, 80);
+        layer.strokeWeight(10);
+        layer.line(pointA.x, pointA.y, pointB.x, pointB.y);
       }
     }
   }
 
-  // Draw all the tracked landmark points
+  pg.image(layer, 0, 0);
+  image(pg, 0, 0);
+
+  // Draw fresh keypoints on top
   for (let i = 0; i < poses.length; i++) {
     let pose = poses[i];
-    // Iterate through all the keypoints
     for (let j = 0; j < pose.keypoints.length; j++) {
       let keypoint = pose.keypoints[j];
-      // Only draw a circle if the keypoint's confidence is bigger than 0.1
       if (keypoint.confidence > 0.1) {
         fill(0, 0, 100, 100);
         noStroke();
@@ -72,6 +104,7 @@ function draw() {
     }
   }
 }
+
 
 // Callback function for when bodyPose outputs data
 function gotPoses(results) {

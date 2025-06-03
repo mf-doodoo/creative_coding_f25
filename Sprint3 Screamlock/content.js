@@ -79,7 +79,7 @@ async function listenForNoise() {
       }
 
       // Threshold: adjust as needed (e.g., 20)
-      if (volume > 50) {
+      if (volume > 10) {
         removeOverlay();
       } else {
         createOverlay();

@@ -2,6 +2,11 @@ let mouseIsActive = false;
 
 let mousePath = [];
 
+// Set custom cursor using cheeseKopie.png
+const customCursor = chrome.runtime.getURL("cheeseKopie.png");
+document.documentElement.style.cursor = `url(${customCursor}) 16 16, auto`; // 16 16 = hotspot (adjust to your image center)
+
+
 document.addEventListener('mousemove', function(e) {
     mousePath.push({ x: e.clientX, y: e.clientY });
     // Optional: Limit array length to avoid memory issues
@@ -48,8 +53,8 @@ document.addEventListener('click', function(e) {
     mouse.style.position = 'fixed';
     mouse.style.left = `${startX}px`;
     mouse.style.top = `${startY}px`;
-    mouse.style.width = '32px';
-    mouse.style.height = '32px';
+    mouse.style.width = '256px';
+    mouse.style.height = '256px';
     mouse.style.pointerEvents = 'none';
     mouse.style.zIndex = 999999;
     document.body.appendChild(mouse);

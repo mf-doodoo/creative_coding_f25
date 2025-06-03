@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Tunnelblick Overlay",
+  "name": "Tunnelvision",
   "version": "1.0",
   "description": "Schwarzes Overlay mit Maus-Loch",
   "permissions": ["scripting", "activeTab"],

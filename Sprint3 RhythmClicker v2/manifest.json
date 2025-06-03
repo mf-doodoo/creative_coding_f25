@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Beat Visualizer",
+  "name": "Rhythm Clicker",
   "version": "1.0",
   "permissions": ["scripting", "activeTab"],
   "action": {

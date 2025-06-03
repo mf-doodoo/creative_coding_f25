@@ -59,19 +59,19 @@ function draw() {
         //let waveOffset = sin(frameCount * 0.4 - iy * 0.6);
     
         //radial Wave
-        let dx = ix - mouseX / 50;
-        let dy = iy - mouseY / 50;
-        let distance = sqrt(dx * dx + dy * dy);
-        let waveOffset = sin(frameCount * 0.3 - distance * 0.5);
+        // let dx = ix - mouseX / 50;
+        // let dy = iy - mouseY / 50;
+        // let distance = sqrt(dx * dx + dy * dy);
+        // let waveOffset = sin(frameCount * 0.3 - distance * 0.5);
 
         //console.log(waveOffset)
 
         //spiral wave
-        //let dx = ix - 10;
-        //let dy = iy - 10;
-        //let angle = atan2(dy, dx);
-        //let radius = sqrt(dx * dx + dy * dy);
-        //let waveOffset = sin(frameCount * 0.2 - radius * 0.5 + angle * 2);
+        let dx = ix - 10;
+        let dy = iy - 10;
+        let angle = atan2(dy, dx);
+        let radius = sqrt(dx * dx + dy * dy);
+        let waveOffset = sin(frameCount * 0.2 - radius * 0.5 + angle * 2);
 
 
         // Map wave to scale between 0.5 and 1.0

@@ -1,7 +1,7 @@
 let timerId = null;
 let countdown = 0;
 
-function getRandomDelay(minMinutes = 1, maxMinutes = 3) {
+function getRandomDelay(minMinutes = 1, maxMinutes = 2) {
   // Random delay between min and max minutes
   return Math.floor(Math.random() * (maxMinutes - minMinutes + 1) + minMinutes) * 60 * 1000;
 }

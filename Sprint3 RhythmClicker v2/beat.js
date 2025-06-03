@@ -49,7 +49,7 @@ chrome.runtime.onMessage.addListener(async (msg) => {
             setTimeout(() => {
               overlay.style.backgroundColor = 'rgba(255,0,0,0.3)';
               overlay.style.pointerEvents = 'auto';
-            }, 100);
+            }, 200);
           }
         }, delay);
       }

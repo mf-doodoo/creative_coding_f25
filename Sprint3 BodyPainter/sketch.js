@@ -2,9 +2,10 @@ let video;
 let bodyPose;
 let poses = [];
 let connections;
+let layer;
 
-let canvasWidth = 1280;
-let canvasHeight = 960;
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight;
 
 let currentDirection;
 let directionTimer = 0;
@@ -21,6 +22,10 @@ function preload() {
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
   colorMode(HSB, 360, 100, 100, 100);   //hue, saturation, brightness, alpha
+  frameRate(10);
+
+  layer = createGraphics(canvasWidth, canvasHeight);
+  layer.colorMode(HSB, 360, 100, 100, 100);
 
   pg = createGraphics(canvasWidth, canvasHeight);   // Create an off-screen graphics buffer
 
@@ -35,7 +40,6 @@ function setup() {
 
 function draw() {
   background(100, 0, 100, 10); // Light background for fading effect
-  frameRate(10);
   hueValue = (hueValue + 1) % 360;
 
   // Change direction every 15 frames
@@ -47,7 +51,7 @@ function draw() {
       {dx: 0, dy: -5}     // up
     ];
     currentDirection = random(directions);
-    directionTimer = 30;
+    directionTimer = 120;
   }
   directionTimer--;
 
@@ -65,7 +69,7 @@ function draw() {
 
 
   // Draw current frame pose on a transparent layer
-  let layer = createGraphics(canvasWidth, canvasHeight);
+  layer.clear();  // Clear the layer for fresh drawing
   layer.clear();
   layer.colorMode(HSB, 360, 100, 100, 100);
 

@@ -25,7 +25,7 @@ const projects = [
     link: "https://weatherapp.example.com"
   },
   {
-    title: "Screamo",
+    title: "Screamroll",
     description: "A browser extension that disables scrolling by button and mouse wheel. Instead, it uses noise to scroll.",
     image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
     link: "https://recipefinder.example.com"
@@ -35,7 +35,25 @@ const projects = [
     description: "A browser extension that creates a tunnel effect on the screen.",
     image: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&w=600&q=80",
     link: "https://taskmanager.example.com"
-  }
+  },
+  {
+    title: "Intiernet",
+    description: "A browser extension that disables scrolling by button and mouse wheel. Instead, it uses noise to scroll.",
+    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+    link: "https://screamo.example.com"
+  },
+  {
+    title: "Screamlock",
+    description: "A browser extension that disables scrolling by button and mouse wheel. Instead, it uses noise to scroll.",
+    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+    link: "https://screamo.example.com"
+  },
+  {
+    title: "Rhythm Clicker",
+    description: "A browser extension that disables scrolling by button and mouse wheel. Instead, it uses noise to scroll.",
+    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+    link: "https://screamo.example.com"
+  },
 ];
 
 function createProjectCard(project) {

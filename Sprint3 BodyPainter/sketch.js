@@ -39,6 +39,11 @@ function setup() {
 }
 
 function draw() {
+
+  push();
+translate(width, 0);
+scale(-1, 1); // Flip horizontally
+
   background(100, 0, 100, 10); // Light background for fading effect
   hueValue = (hueValue + 1) % 360;
 
@@ -82,7 +87,7 @@ function draw() {
       let pointB = pose.keypoints[pointBIndex];
       if (pointA.confidence > 0.1 && pointB.confidence > 0.1) {
         layer.stroke(hueValue, 100, 100, 40);
-        layer.strokeWeight(20);
+        layer.strokeWeight(50);
         layer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 
         layer.stroke(0, 0, 100, 80);
@@ -107,6 +112,9 @@ function draw() {
       }
     }
   }
+
+  pop(); // Restore normal drawing
+
 }
 
 

@@ -4,7 +4,7 @@ const projects = [
     title: "«Seestücke 16» v1",
     description: "The first re-coding of Anton Bruhin's work.",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80",
-    link: "Sprint1 v1/index.html"
+    link: "creative_coding_f25\Sprint1 v1\index.html"
   },
   {
     title: "«Seestücke 16» v2",

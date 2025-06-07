@@ -21,6 +21,16 @@ img{
   margin: 0;
 }
 
+a{
+  text-decoration: none;
+  color: white;
+}
+
+a:hover{
+  font-weight: bold;
+
+}
+
 .cards{
   width: 100%;
   height: auto;
@@ -61,7 +71,7 @@ you want to address with the styling.
 
 
 .card img{
-  width: 60%;
+  width: 100%;
   height: auto;
 }
 
